@@ -11,14 +11,11 @@ function App() {
   const [prevDisplay, setprevDisplay] = useState('')
   ///logic
   const [operation, setoperation] = useState('')
-  const [result, setresult] = useState('')
-  const [tem_result, setTem_result] = useState()
-  // const [lastInput, setlastInput] = useState('')
-  // const [numberTwo, setnumberTwo] = useState(0)
+  const [result, setresult] = useState(0)
+  const [tem_result, setTem_result] = useState('')
   ////boolean statement
   const [haveDot, sethaveDot] = useState(false)
   const [errorInput, seterrorInput] = useState(false)
-  // const [haveOperation, sethaveOperation] = useState(false)
 
   ///////////////////////////
   // (main input handler)
@@ -38,7 +35,9 @@ function App() {
   }
 
   const equal = () => {
-    if (!currentDisplay || !prevDisplay) return
+    if (!currentDisplay || !prevDisplay) {
+      return
+    }
     sethaveDot(false)
     compute()
     clearVar()
@@ -49,9 +48,9 @@ function App() {
 
   const deleteNum = () => {
     if (!currentDisplay) return
-    if (currentDisplay.endsWith('.')) {
-      sethaveDot(false)
-    }
+    // if (currentDisplay.endsWith('.')) {
+    //   sethaveDot(false)
+    // }
     setcurrentDisplay(currentDisplay.toString().slice(0, -1))
     seterrorInput(false)
   }
@@ -62,6 +61,7 @@ function App() {
     setoperation(undefined)
     seterrorInput(false)
     sethaveDot(false)
+    setTem_result('')
   }
 
   const appendNumber = (input) => {
@@ -84,13 +84,14 @@ function App() {
     }
     sethaveDot(false)
     const operationName = input
-    if (prevDisplay && currentDisplay && operationName) {
+    if (prevDisplay && currentDisplay && operation) {
       compute()
     } else {
       setresult(parseFloat(currentDisplay))
     }
     clearVar(operationName)
     setoperation(operationName)
+    console.log(result)
     // setprevDisplay(currentDisplay)
     // setcurrentDisplay('')
     // setoperation(input)
@@ -107,25 +108,25 @@ function App() {
     setcurrentDisplay('')
     setTem_result(result)
   }
+
   const compute = () => {
-    let prevInput = parseFloat(prevDisplay)
     let lastInput = parseFloat(currentDisplay)
-    console.log(isNaN(prevInput))
+    let currentResult = parseFloat(result)
     console.log(isNaN(lastInput))
-    console.log(`${prevDisplay} ${operation} ${currentDisplay}`)
+    console.log(`${prevDisplay} ${'-'} ${operation} ${'-'} ${currentDisplay}`)
 
     switch (operation) {
       case '+':
-        setresult(result + currentDisplay)
+        setresult(currentResult + lastInput)
         break
       case '-':
-        setresult(result - currentDisplay)
+        setresult(currentResult - lastInput)
         break
       case '*':
-        setresult(result * currentDisplay)
+        setresult(currentResult * lastInput)
         break
       case '/':
-        setresult(result / currentDisplay)
+        setresult(currentResult / lastInput)
         break
       // case '=':
       //   setresult(result)
