@@ -20,6 +20,8 @@ function App() {
   ///////////////////////////
   // (main input handler)
   const inputHandler = (input) => {
+    console.log(`${prevDisplay} ${operation} ${currentDisplay}`)
+    console.log(`${operation}`)
     ///evaluate if dot exist.
     if (!specialButtons.includes(input)) {
       appendNumber(input)
@@ -75,7 +77,7 @@ function App() {
       seterrorInput(true)
       return
     }
-    setcurrentDisplay(currentDisplay + input)
+    setcurrentDisplay((prev) => prev + input)
   }
 
   const chooseOperation = (input) => {
@@ -104,33 +106,33 @@ function App() {
   }
 
   const clearVar = (name = '') => {
-    setprevDisplay(prevDisplay + currentDisplay + ' ' + name + ' ')
+    setprevDisplay((prev2) => prev2 + currentDisplay + ' ' + name + ' ')
     setcurrentDisplay('')
     setTem_result(result)
   }
 
   const compute = () => {
     let lastInput = parseFloat(currentDisplay)
-    let currentResult = parseFloat(result)
+    // let currentResult = parseFloat(result)
     console.log(isNaN(lastInput))
     console.log(`${prevDisplay} ${'-'} ${operation} ${'-'} ${currentDisplay}`)
 
     switch (operation) {
       case '+':
-        setresult(currentResult + lastInput)
+        setresult((prevResult) => prevResult + lastInput)
         break
       case '-':
-        setresult(currentResult - lastInput)
+        setresult((prevResult) => prevResult - lastInput)
         break
       case '*':
-        setresult(currentResult * lastInput)
+        setresult((prevResult) => prevResult * lastInput)
         break
       case '/':
-        setresult(currentResult / lastInput)
+        setresult((prevResult) => prevResult / lastInput)
         break
-      // case '=':
-      //   setresult(result)
-      //   break
+      case '=':
+        setresult((prevResult) => prevResult)
+        break
       default:
     }
     // console.log(result)
